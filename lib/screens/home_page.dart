@@ -1,3 +1,4 @@
+import 'package:book_store/screens/product_list.dart';
 import 'package:book_store/widget/category_list.dart';
 import 'package:book_store/widget/row_product_list.dart';
 import 'package:book_store/widget/search_widget.dart';
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                       itemExtent: 250,
                       delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                        return ProductList(
+                        return _ProductList(
                           category: categories[index],
                         );
                       }, childCount: categories.length),
@@ -125,8 +126,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class ProductList extends StatelessWidget {
-  const ProductList({
+class _ProductList extends StatelessWidget {
+  const _ProductList({
     Key? key,
     required this.category,
   }) : super(key: key);
@@ -143,8 +144,24 @@ class ProductList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(category.name, style: Theme.of(context).textTheme.headline4),
-              Text('See All', style: Theme.of(context).textTheme.headline6),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(category.name,
+                    style: Theme.of(context).textTheme.headline4),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ProductList(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'See All',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
             ],
           ),
         ),
