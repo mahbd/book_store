@@ -2,9 +2,41 @@ import 'package:book_store/widget/category_list.dart';
 import 'package:book_store/widget/row_product_list.dart';
 import 'package:book_store/widget/search_widget.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 import '../model/category_model.dart';
 import '../widget/featured.dart';
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => math.max(maxHeight, minHeight);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,6 +63,30 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
+    SliverPersistentHeader makeCategoriesWidget() {
+      return SliverPersistentHeader(
+        pinned: true,
+        delegate: _SliverAppBarDelegate(
+          minHeight: 100.0,
+          maxHeight: 100.0,
+          child: CategoryList(
+            categories: categories,
+            changeCategory: _updateCategory,
+            currentCategory: _currentCategory,
+          ),
+        ),
+      );
+    }
+
+    SliverFixedExtentList makeFixedExtent(Widget child, double height) {
+      return SliverFixedExtentList(
+        itemExtent: height,
+        delegate: SliverChildListDelegate(
+          [child],
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
@@ -43,36 +99,21 @@ class _HomePageState extends State<HomePage> {
               ),
               SearchWidget(updateSearchText: _updateSearchText),
               Expanded(
-                child: ListView(
-                  children: [
-                    const SizedBox(
-                      height: 15,
+                child: CustomScrollView(
+                  slivers: [
+                    makeFixedExtent(const SizedBox(height: 15), 15.0),
+                    makeFixedExtent(const Featured(), 250.0),
+                    makeFixedExtent(const SizedBox(height: 15), 15.0),
+                    makeCategoriesWidget(),
+                    SliverFixedExtentList(
+                      itemExtent: 250,
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                        return ProductList(
+                          category: categories[index],
+                        );
+                      }, childCount: categories.length),
                     ),
-                    const Featured(),
-                    const SizedBox(height: 20),
-                    CategoryList(
-                      categories: categories,
-                      changeCategory: _updateCategory,
-                      currentCategory: _currentCategory,
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text('New Arrivals',
-                              style: Theme.of(context).textTheme.headline4),
-                          Text('See All',
-                              style: Theme.of(context).textTheme.headline6),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const RowProductList(),
-                    const SizedBox(height: 20),
-                    const ProductList(),
                   ],
                 ),
               ),
@@ -87,7 +128,10 @@ class _HomePageState extends State<HomePage> {
 class ProductList extends StatelessWidget {
   const ProductList({
     Key? key,
+    required this.category,
   }) : super(key: key);
+
+  final Category category;
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +143,7 @@ class ProductList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('New Arrivals',
-                  style: Theme.of(context).textTheme.headline4),
+              Text(category.name, style: Theme.of(context).textTheme.headline4),
               Text('See All', style: Theme.of(context).textTheme.headline6),
             ],
           ),
