@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var _themeProvider = Provider.of<ThemeChanger>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
@@ -49,6 +53,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         onTap: (int index) {
+          if (index == 0) {
+            _themeProvider.setTheme(lightTheme);
+          } else if (index == 1) {
+            _themeProvider.setTheme(loveTheme);
+          } else if (index == 2) {
+            _themeProvider.setTheme(cartTheme);
+          } else if (index == 3) {
+            _themeProvider.setTheme(profileTheme);
+          }
           setState(() {
             _tabIndex = index;
           });
