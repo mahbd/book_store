@@ -1,6 +1,8 @@
 import 'package:book_store/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../widget/featured.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -25,8 +27,10 @@ class _HomePageState extends State<HomePage> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SearchWidget(updateSearchText: _updateSearchText),
+              const Featured(),
             ],
           ),
         ),
