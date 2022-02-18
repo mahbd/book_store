@@ -8,7 +8,7 @@ var loveTheme = ThemeData(
 );
 
 var cartTheme = ThemeData(
-  primarySwatch: Colors.green,
+  primarySwatch: Colors.purple,
 );
 
 var profileTheme = ThemeData(
