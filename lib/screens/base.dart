@@ -1,10 +1,10 @@
-import 'package:book_store/screens/home_page.dart';
-import 'package:book_store/screens/product_list.dart';
-import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../theme_provider.dart';
+import '../providers/theme_provider.dart';
+import 'home_page.dart';
+import 'product_list.dart';
+import 'profile.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);

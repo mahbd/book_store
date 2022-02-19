@@ -1,13 +1,13 @@
-import 'package:book_store/models/product_model.dart';
-import 'package:book_store/screens/product_list.dart';
-import 'package:book_store/widget/category_list.dart';
-import 'package:book_store/widget/row_product_list.dart';
-import 'package:book_store/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import '../models/product_model.dart';
+import '../widget/category_list.dart';
+import '../widget/row_product_list.dart';
+import '../widget/search_widget.dart';
 import '../models/category_model.dart';
 import '../widget/featured.dart';
+import 'product_list.dart';
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({

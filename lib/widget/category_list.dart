@@ -1,7 +1,7 @@
-import 'package:book_store/screens/product_list.dart';
-
-import '../models/category_model.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/product_list.dart';
+import '../models/category_model.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList(

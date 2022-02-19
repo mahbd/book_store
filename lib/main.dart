@@ -1,11 +1,11 @@
-import 'package:book_store/screens/home_page.dart';
-import 'package:book_store/screens/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/home_page.dart';
+import 'screens/wishlist.dart';
 import 'screens/authentication.dart';
 import 'models/product_model.dart';
-import 'theme_provider.dart';
+import 'providers/theme_provider.dart';
 
 void main() {
   runApp(

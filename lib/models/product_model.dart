@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:book_store/models/category_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'category_model.dart';
 import '../constants.dart';
 
 class Product {

@@ -1,12 +1,12 @@
 import 'dart:convert';
-
-import 'package:book_store/constants.dart';
-import 'package:book_store/screens/base.dart';
-import 'package:book_store/screens/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
+
+import '../constants.dart';
+import 'base.dart';
+import 'splash.dart';
 
 class Authentication extends StatefulWidget {
   const Authentication({Key? key}) : super(key: key);

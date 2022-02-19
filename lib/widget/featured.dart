@@ -1,11 +1,11 @@
 import 'dart:convert';
-
-import 'package:book_store/constants.dart';
-import 'package:book_store/models/product_model.dart';
-import 'package:book_store/widget/future_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../constants.dart';
+import '../models/product_model.dart';
+import 'future_image.dart';
 
 class Featured extends StatelessWidget {
   const Featured({
