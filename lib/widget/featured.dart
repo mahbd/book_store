@@ -45,7 +45,7 @@ class Featured extends StatelessWidget {
                 height: 250,
                 width: 250,
                 child: CircularProgressIndicator(
-                  strokeWidth: 20,
+                  strokeWidth: 10,
                 ),
               ),
             );

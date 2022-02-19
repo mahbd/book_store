@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:book_store/models/category_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
@@ -63,19 +64,20 @@ class Product {
   }
 }
 
-List<Product> fromHttpList(Category category) {
-  http
-      .get(Uri.parse("$api/products/?category=${category.name}"))
-      .then((response) {
-    if (response.statusCode == 200) {
-      return (jsonDecode(response.body) as List)
-          .map((product) => Product.fromJson(product))
-          .toList();
-    } else {
-      throw Exception('Failed to load products');
-    }
-  }).catchError((onError) {
+Future<List<Product>> productListOfCategory(Category category) async {
+  // get access token from shared preferences
+  final SharedPreferences _prefs = await SharedPreferences.getInstance();
+  final String accessToken = _prefs.getString('access_token') ?? '';
+  http.Response response = await http.get(
+    Uri.parse("$api/api/products/?category=${category.name}"),
+    headers: {'Authorization': 'Bearer $accessToken'},
+  );
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body) as List)
+        .map((product) => Product.fromJson(product))
+        .toList();
+  } else {
+    print("Failed to load. Status code: ${response.statusCode}");
     throw Exception('Failed to load products');
-  });
-  throw Exception('Failed to load products');
+  }
 }

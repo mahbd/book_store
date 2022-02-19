@@ -1,3 +1,4 @@
+import 'package:book_store/models/product_model.dart';
 import 'package:book_store/screens/product_list.dart';
 import 'package:book_store/widget/category_list.dart';
 import 'package:book_store/widget/row_product_list.dart';
@@ -166,9 +167,41 @@ class _ProductList extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        const RowProductList(),
+        SizedBox(
+          height: 150,
+          child: FutureBuilder(
+              future: productListOfCategory(category),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                      width: 150, child: CircularProgressIndicator());
+                } else {
+                  if (snapshot.hasData) {
+                    return RowProductList(
+                      products: convertToProductList(snapshot.data!),
+                    );
+                  } else {
+                    return const Center(
+                      child: Text(
+                        'Failed to load data',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  }
+                }
+              }),
+        ),
         const SizedBox(height: 20),
       ],
     );
   }
+}
+
+List<Product> convertToProductList(dynamic data) {
+  List<Product> products = data.map<Product>((e) => e as Product).toList();
+  print("Amount of Products: ${products.length}");
+  return products;
 }

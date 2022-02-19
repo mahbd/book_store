@@ -162,6 +162,7 @@ class _AuthenticationState extends State<Authentication> {
               return const BaseScreen();
             }
             return FlutterLogin(
+              logo: 'assets/images/books.png',
               title: 'Book Store',
               onLogin: _loginUser,
               onSignup: _signupUser,
