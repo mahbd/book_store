@@ -69,8 +69,8 @@ class _HomePageState extends State<HomePage> {
       return SliverPersistentHeader(
         pinned: true,
         delegate: _SliverAppBarDelegate(
-          minHeight: 100.0,
-          maxHeight: 100.0,
+          minHeight: 25.0,
+          maxHeight: 45.0,
           child: CategoryList(
             categories: categories,
             changeCategory: _updateCategory,
@@ -147,14 +147,18 @@ class _ProductList extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
-                child: Text(category.showName,
-                    style: Theme.of(context).textTheme.headline4),
+                child: Text(
+                  category.showName,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const ProductList(),
+                      builder: (context) => ProductList(
+                        category: category,
+                      ),
                     ),
                   );
                 },

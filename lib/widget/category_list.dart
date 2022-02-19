@@ -26,30 +26,23 @@ class CategoryList extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 7),
-            child: SizedBox(
-              height: 50,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProductList()),
-                  );
-                },
-                child: Column(
-                  children: [
-                    categories[index].icon,
-                    const SizedBox(height: 10),
-                    Text(
-                      categories[index].showName,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.headline1!.color,
-                      ),
+            child: MaterialButton(
+              minWidth: 100,
+              shape: const StadiumBorder(),
+              color: Colors.black,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductList(
+                      category: categories[index],
                     ),
-                  ],
-                ),
+                  ),
+                );
+              },
+              child: Text(
+                categories[index].name,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           );
