@@ -1,7 +1,5 @@
-import 'package:book_store/screens/base.dart';
-import 'package:book_store/screens/product_list.dart';
+import 'package:book_store/screens/authentication.dart';
 import 'package:book_store/screens/profile.dart';
-import 'package:book_store/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +36,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
-      home: const BaseScreen(),
+      home: const Authentication(),
     );
   }
 }

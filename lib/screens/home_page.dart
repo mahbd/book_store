@@ -5,7 +5,7 @@ import 'package:book_store/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import '../model/category_model.dart';
+import '../models/category_model.dart';
 import '../widget/featured.dart';
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {

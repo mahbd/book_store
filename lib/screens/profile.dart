@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -112,6 +114,7 @@ class Profile extends StatelessWidget {
                   thickness: 0.5,
                 ),
                 ListTile(
+                  onTap: () => _showLogoutDialog(context),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -140,4 +143,32 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Logout'),
+        content: const Text(
+            'Are you sure you want to logout?\nThe app will be closed to remove saved data.'),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          TextButton(
+            child: const Text('Logout'),
+            onPressed: () async {
+              SharedPreferences _prefs = await SharedPreferences.getInstance();
+              await _prefs.remove('access_token');
+              await _prefs.remove('refresh_token');
+              SystemNavigator.pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

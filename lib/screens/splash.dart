@@ -15,9 +15,25 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: Image.asset('assets/images/bsb_logo.png'),
-        ),
+        child: SizedBox(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/bsb_logo.png'),
+            Text(
+              'Checking Authentication',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const CircularProgressIndicator(
+              backgroundColor: Colors.white,
+              color: Colors.pink,
+            ),
+          ],
+        )),
       ),
     );
   }
