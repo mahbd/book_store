@@ -1,4 +1,5 @@
 import 'package:book_store/screens/home_page.dart';
+import 'package:book_store/screens/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
-      home: const Authentication(),
+      home: const WishListPage(),
     );
   }
 }

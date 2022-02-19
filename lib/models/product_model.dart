@@ -49,19 +49,6 @@ class Product {
       createdAt: DateTime.parse(json['created_at']),
     );
   }
-
-  factory Product.fromHttp(int id) {
-    http.get(Uri.parse("$api/products/$id")).then((response) {
-      if (response.statusCode == 200) {
-        return Product.fromJson(jsonDecode(response.body));
-      } else {
-        throw Exception('Failed to load product');
-      }
-    }).catchError((onError) {
-      throw Exception('Failed to load product');
-    });
-    throw Exception('Failed to load product');
-  }
 }
 
 Future<List<Product>> productListOfCategory(Category category) async {
@@ -79,5 +66,19 @@ Future<List<Product>> productListOfCategory(Category category) async {
   } else {
     print("Failed to load. Status code: ${response.statusCode}");
     throw Exception('Failed to load products');
+  }
+}
+
+Future<Product> productFromHttp(int id) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String accessToken = _prefs.getString('access_token') ?? '';
+  http.Response response =
+      await http.get(Uri.parse("$api/api/products/$id/"), headers: {
+    'Authorization': 'Bearer $accessToken',
+  });
+  if (response.statusCode == 200) {
+    return Product.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load product');
   }
 }

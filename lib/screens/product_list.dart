@@ -4,8 +4,15 @@ import 'package:flutter/material.dart';
 import '../models/product_model.dart';
 
 class ProductList extends StatelessWidget {
-  const ProductList({Key? key, this.headerChild, this.category, this.products})
-      : super(key: key);
+  const ProductList({
+    Key? key,
+    this.headerChild,
+    this.category,
+    this.products,
+    this.title,
+  }) : super(key: key);
+
+  final String? title;
   final Widget? headerChild;
   final Category? category;
   final List<Product>? products;
@@ -14,7 +21,7 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product List'),
+        title: Text(title ?? 'Product List'),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
