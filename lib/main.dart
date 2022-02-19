@@ -1,4 +1,5 @@
 import 'package:book_store/screens/authentication.dart';
+import 'package:book_store/screens/home_page.dart';
 import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
