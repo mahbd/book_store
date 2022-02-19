@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   slivers: [
                     makeFixedExtent(const SizedBox(height: 15), 15.0),
                     makeFixedExtent(const Featured(), 250.0),
-                    makeFixedExtent(const SizedBox(height: 15), 15.0),
+                    makeFixedExtent(const SizedBox(height: 15), 20.0),
                     makeCategoriesWidget(),
                     SliverFixedExtentList(
                       itemExtent: 250,
@@ -146,7 +146,7 @@ class _ProductList extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
-                child: Text(category.name,
+                child: Text(category.showName,
                     style: Theme.of(context).textTheme.headline4),
               ),
               TextButton(

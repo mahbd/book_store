@@ -1,3 +1,5 @@
+import 'package:book_store/screens/product_list.dart';
+
 import '../models/category_model.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +28,28 @@ class CategoryList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 7),
             child: SizedBox(
               height: 50,
-              child: Column(
-                children: [
-                  categories[index].icon,
-                  const SizedBox(height: 10),
-                  Text(categories[index].name),
-                ],
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProductList()),
+                  );
+                },
+                child: Column(
+                  children: [
+                    categories[index].icon,
+                    const SizedBox(height: 10),
+                    Text(
+                      categories[index].showName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.headline1!.color,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
