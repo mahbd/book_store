@@ -5,7 +5,7 @@ class TabPageChanger extends ChangeNotifier {
   TabPageChanger(this._page);
 
   get getPage => _page;
-  void setTheme(Widget? page) {
+  void setPage(Widget? page) {
     _page = page;
     notifyListeners();
   }

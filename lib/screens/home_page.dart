@@ -157,7 +157,7 @@ class _ProductList extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  _tabPageChanger.setTheme(
+                  _tabPageChanger.setPage(
                     ProductList(
                       category: category,
                     ),
@@ -175,29 +175,30 @@ class _ProductList extends StatelessWidget {
         SizedBox(
           height: 150,
           child: FutureBuilder(
-              future: productListOfCategory(category),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox(
-                      width: 150, child: CircularProgressIndicator());
+            future: productListOfCategory(category),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox(
+                    width: 150, child: CircularProgressIndicator());
+              } else {
+                if (snapshot.hasData) {
+                  return RowProductList(
+                    products: convertToProductList(snapshot.data!),
+                  );
                 } else {
-                  if (snapshot.hasData) {
-                    return RowProductList(
-                      products: convertToProductList(snapshot.data!),
-                    );
-                  } else {
-                    return const Center(
-                      child: Text(
-                        'Failed to load data',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.red,
-                        ),
+                  return const Center(
+                    child: Text(
+                      'Failed to load data',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.red,
                       ),
-                    );
-                  }
+                    ),
+                  );
                 }
-              }),
+              }
+            },
+          ),
         ),
         const SizedBox(height: 20),
       ],
