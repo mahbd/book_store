@@ -1,7 +1,10 @@
+import 'package:book_store/screens/product_details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/category_model.dart';
 import '../models/product_model.dart';
+import '../providers/tab_bar_provider.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({
@@ -58,6 +61,7 @@ class _RenderProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     return Expanded(
       child: ListView.builder(
         itemCount: products?.length ?? 0,
@@ -77,15 +81,24 @@ class _RenderProductList extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Image.network(
-                      products![index].image,
-                      fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                      tabPageChanger.setPage(
+                        ProductDetails(
+                          product: products![index],
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 100,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Image.network(
+                        products![index].image,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -102,9 +115,16 @@ class _RenderProductList extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Flexible(
-                          child: Text(
-                            products![index].description,
-                            style: Theme.of(context).textTheme.subtitle1,
+                          child: GestureDetector(
+                            onTap: () {
+                              tabPageChanger.setPage(
+                                ProductDetails(product: products![index]),
+                              );
+                            },
+                            child: Text(
+                              products![index].description,
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
                           ),
                         ),
                         Padding(

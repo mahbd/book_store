@@ -1,3 +1,4 @@
+import 'package:book_store/screens/cart.dart';
 import 'package:book_store/screens/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _BaseScreenState extends State<BaseScreen> {
   List<Widget> children = [
     const HomePage(),
     const WishListPage(),
-    const ProductList(),
+    const CartPage(),
     const Profile(),
   ];
 
