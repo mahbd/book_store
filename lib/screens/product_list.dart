@@ -36,7 +36,6 @@ class ProductList extends StatelessWidget {
               future: productListOfCategory(category!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  print("Waiting for product list");
                   return const Center(child: CircularProgressIndicator());
                 } else {
                   if (snapshot.hasData) {
@@ -139,12 +138,21 @@ class _RenderProductList extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: Row(
-                                  children: const [
-                                    Icon(Icons.favorite),
-                                    SizedBox(
+                                  children: [
+                                    products![index].isWishlisted == -1
+                                        ? const CircularProgressIndicator()
+                                        : products![index].isWishlisted == 0
+                                            ? const Icon(Icons.favorite_outline)
+                                            : const Icon(Icons.favorite),
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Icon(Icons.shopping_cart),
+                                    products![index].isInCart == -1
+                                        ? const CircularProgressIndicator()
+                                        : products![index].isInCart == 0
+                                            ? const Icon(
+                                                Icons.shopping_cart_outlined)
+                                            : const Icon(Icons.shopping_cart),
                                   ],
                                 ),
                               ),

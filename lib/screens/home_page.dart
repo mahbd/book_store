@@ -178,8 +178,13 @@ class _ProductList extends StatelessWidget {
             future: productListOfCategory(category),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox(
-                    width: 150, child: CircularProgressIndicator());
+                return Container(
+                  padding: const EdgeInsets.all(50),
+                  child: const SizedBox(
+                    width: 50,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               } else {
                 if (snapshot.hasData) {
                   return RowProductList(
@@ -208,6 +213,5 @@ class _ProductList extends StatelessWidget {
 
 List<Product> convertToProductList(dynamic data) {
   List<Product> products = data.map<Product>((e) => e as Product).toList();
-  print("Amount of Products: ${products.length}");
   return products;
 }

@@ -20,17 +20,20 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/bsb_logo.png'),
-            Text(
-              'Checking Authentication',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
+            Image.asset('assets/images/books.png', height: 200, width: 200),
             const SizedBox(
               height: 20,
             ),
             const CircularProgressIndicator(
               backgroundColor: Colors.white,
               color: Colors.pink,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Checking Authentication',
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           ],
         )),

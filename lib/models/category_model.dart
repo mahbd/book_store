@@ -14,6 +14,16 @@ class Category {
 
 List<Category> categories = [
   Category(
+    name: 'history',
+    showName: 'History',
+    icon: Image.asset('assets/category/history.jpeg', height: 50),
+  ),
+  Category(
+    name: 'poetry',
+    showName: 'Poetry',
+    icon: Image.asset('assets/category/poetry.jpeg', height: 50),
+  ),
+  Category(
     name: 'fiction',
     showName: 'Fiction',
     icon: Image.asset('assets/category/fiction.jpeg', height: 50),
@@ -27,16 +37,6 @@ List<Category> categories = [
     name: 'biography',
     showName: 'Biography',
     icon: Image.asset('assets/category/biography.jpeg', height: 50),
-  ),
-  Category(
-    name: 'history',
-    showName: 'History',
-    icon: Image.asset('assets/category/history.jpeg', height: 50),
-  ),
-  Category(
-    name: 'poetry',
-    showName: 'Poetry',
-    icon: Image.asset('assets/category/poetry.jpeg', height: 50),
   ),
 ];
 

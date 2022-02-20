@@ -46,11 +46,9 @@ class Featured extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: SizedBox(
-                height: 250,
-                width: 250,
-                child: CircularProgressIndicator(
-                  strokeWidth: 10,
-                ),
+                height: 80,
+                width: 80,
+                child: CircularProgressIndicator(),
               ),
             );
           } else {

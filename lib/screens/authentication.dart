@@ -29,7 +29,7 @@ class _AuthenticationState extends State<Authentication> {
         SharedPreferences _prefs = await SharedPreferences.getInstance();
         _prefs.setString('access_token', accessToken);
         _prefs.setString('refresh_token', refreshToken);
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BaseScreen()),
         );

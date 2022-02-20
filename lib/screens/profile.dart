@@ -52,8 +52,16 @@ class Profile extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      CircleAvatar(radius: 60, backgroundColor: Colors.red),
+                    children: [
+                      user.image != null
+                          ? CircleAvatar(
+                              backgroundImage: Image.network(user.image!).image,
+                              radius: 60,
+                            )
+                          : const CircleAvatar(
+                              child: Icon(Icons.person),
+                              radius: 60,
+                            ),
                     ],
                   ),
                   Center(
