@@ -1,4 +1,4 @@
-import 'package:book_store/models/product_model.dart';
+import '../models/product_model.dart';
 import 'package:flutter/material.dart';
 
 import 'future_image.dart';

@@ -6,6 +6,7 @@ import 'screens/wishlist.dart';
 import 'screens/authentication.dart';
 import 'models/product_model.dart';
 import 'providers/theme_provider.dart';
+import 'providers/tab_bar_provider.dart';
 
 void main() {
   runApp(
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeChanger(lightTheme)),
+        ChangeNotifierProvider(create: (_) => TabPageChanger(null)),
       ],
       child: const MaterialAppWithTheme(),
     );
@@ -40,7 +42,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
-      home: const WishListPage(),
+      home: const Authentication(),
     );
   }
 }
