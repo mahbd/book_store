@@ -1,4 +1,4 @@
-import 'package:book_store/screens/product_details.dart';
+import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
