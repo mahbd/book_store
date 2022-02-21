@@ -8,8 +8,17 @@ import 'package:http/http.dart' as http;
 
 import '../models/user_model.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  void reload() {
+    setState(() {});
+  }
 
   Future<User> getUserDetails() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -78,36 +87,15 @@ class Profile extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const SizedBox(height: 20),
-                  _EditProfileTile(user: user),
+                  _EditProfileTile(user: user, reload: reload),
                   const Divider(
                     thickness: 0.5,
                   ),
-                  const _ChangePasswordTile(),
+                  _ChangePasswordTile(reload: reload),
                   const Divider(
                     thickness: 0.5,
                   ),
-                  ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    tileColor: Theme.of(context).primaryColor,
-                    leading: const Icon(Icons.lock),
-                    title: Text(
-                      'Change Theme',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Change your theme',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                    ),
-                  ),
+                  const _ChangeThemeTile(),
                   const Divider(
                     thickness: 0.5,
                   ),
@@ -210,70 +198,67 @@ class _LogoutTile extends StatelessWidget {
   }
 }
 
-class _EditProfileTile extends StatelessWidget {
-  const _EditProfileTile({
+class _ChangeThemeTile extends StatelessWidget {
+  const _ChangeThemeTile({
     Key? key,
-    required this.user,
   }) : super(key: key);
-
-  final User user;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (context) {
-              final _firstNameController = TextEditingController(
-                text: user.firstName,
-              );
-              final _lastNameController = TextEditingController(
-                text: user.lastName,
-              );
-              final _emailController = TextEditingController(
-                text: user.email,
-              );
-              return AlertDialog(
-                title: const Text('Edit Profile'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'First Name',
-                      ),
-                      controller: _firstNameController,
-                    ),
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Last Name',
-                      ),
-                      controller: _lastNameController,
-                    ),
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                      ),
-                      controller: _emailController,
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    child: const Text('Cancel'),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  TextButton(
-                    child: const Text('Save'),
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              );
-            });
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      tileColor: Theme.of(context).primaryColor,
+      leading: const Icon(Icons.lock),
+      title: Text(
+        'Change Theme',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).textTheme.bodyText1!.color,
+        ),
+      ),
+      subtitle: Text(
+        'Change your theme',
+        style: TextStyle(
+          fontSize: 12,
+          color: Theme.of(context).textTheme.bodyText1!.color,
+        ),
+      ),
+      onTap: () {},
+    );
+  }
+}
+
+class _EditProfileTile extends StatefulWidget {
+  const _EditProfileTile({
+    Key? key,
+    required this.user,
+    required this.reload,
+  }) : super(key: key);
+
+  final User user;
+  final Function reload;
+
+  @override
+  State<_EditProfileTile> createState() => _EditProfileTileState();
+}
+
+class _EditProfileTileState extends State<_EditProfileTile> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditProfileForm(
+              user: widget.user,
+            ),
+          ),
+        );
+        widget.reload();
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -299,62 +284,30 @@ class _EditProfileTile extends StatelessWidget {
   }
 }
 
-class _ChangePasswordTile extends StatelessWidget {
+class _ChangePasswordTile extends StatefulWidget {
   const _ChangePasswordTile({
     Key? key,
+    required this.reload,
   }) : super(key: key);
 
+  final Function reload;
+
+  @override
+  State<_ChangePasswordTile> createState() => _ChangePasswordTileState();
+}
+
+class _ChangePasswordTileState extends State<_ChangePasswordTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            final _oldPasswordController = TextEditingController();
-            final _newPasswordController = TextEditingController();
-            final _confirmPasswordController = TextEditingController();
-            return AlertDialog(
-              title: const Text('Change Password'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Old Password',
-                    ),
-                    controller: _oldPasswordController,
-                  ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'New Password',
-                    ),
-                    controller: _newPasswordController,
-                  ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Confirm Password',
-                    ),
-                    controller: _confirmPasswordController,
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  child: const Text('Cancel'),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                TextButton(
-                  child: const Text('Save'),
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            );
-          },
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ChangePasswordForm(),
+          ),
         );
+        widget.reload();
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -374,6 +327,203 @@ class _ChangePasswordTile extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           color: Theme.of(context).textTheme.bodyText1!.color,
+        ),
+      ),
+    );
+  }
+}
+
+class EditProfileForm extends StatefulWidget {
+  const EditProfileForm({Key? key, required this.user}) : super(key: key);
+  final User user;
+
+  @override
+  _EditProfileFormState createState() => _EditProfileFormState();
+}
+
+class _EditProfileFormState extends State<EditProfileForm> {
+  bool isSubmitting = false;
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController _firstNameController = TextEditingController(
+      text: widget.user.firstName,
+    );
+    final TextEditingController _lastNameController = TextEditingController(
+      text: widget.user.lastName,
+    );
+    final TextEditingController _emailController = TextEditingController(
+      text: widget.user.email,
+    );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Profile'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _firstNameController,
+              decoration: const InputDecoration(
+                labelText: 'First Name',
+              ),
+            ),
+            TextField(
+              controller: _lastNameController,
+              decoration: const InputDecoration(
+                labelText: 'Last Name',
+              ),
+            ),
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                labelText: 'Email',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                setState(() {
+                  isSubmitting = true;
+                });
+                SharedPreferences _prefs =
+                    await SharedPreferences.getInstance();
+                final _accessToken = _prefs.getString('access_token');
+                http.Response response = await http.patch(
+                  Uri.parse("$api/auth/user/"),
+                  headers: {'Authorization': 'Bearer $_accessToken'},
+                  body: {
+                    'first_name': _firstNameController.text,
+                    'last_name': _lastNameController.text,
+                    'email': _emailController.text,
+                  },
+                );
+                if (response.statusCode == 200) {
+                  setState(() {
+                    isSubmitting = false;
+                  });
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Failed to edit profile'),
+                        content: const Text(
+                            'Failed to edit profile. Please try again.'),
+                        actions: [
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                setState(() {
+                  isSubmitting = false;
+                });
+                Navigator.pop(context);
+              },
+              child: !isSubmitting
+                  ? const Text('Save')
+                  : const CircularProgressIndicator(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChangePasswordForm extends StatefulWidget {
+  const ChangePasswordForm({Key? key}) : super(key: key);
+
+  @override
+  _ChangePasswordFormState createState() => _ChangePasswordFormState();
+}
+
+class _ChangePasswordFormState extends State<ChangePasswordForm> {
+  bool isSubmitting = false;
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Change Password'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _oldPasswordController,
+              decoration: const InputDecoration(
+                labelText: 'Old Password',
+              ),
+            ),
+            TextField(
+              controller: _newPasswordController,
+              decoration: const InputDecoration(
+                labelText: 'New Password',
+              ),
+            ),
+            TextField(
+              controller: _confirmPasswordController,
+              decoration: const InputDecoration(
+                labelText: 'Confirm Password',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                setState(() {
+                  isSubmitting = true;
+                });
+                SharedPreferences _prefs =
+                    await SharedPreferences.getInstance();
+                final _accessToken = _prefs.getString('access_token');
+                http.Response response = await http.post(
+                  Uri.parse("$api/auth/password/change/"),
+                  headers: {'Authorization': 'Bearer $_accessToken'},
+                  body: {
+                    'new_password1': _newPasswordController.text,
+                    'new_password2': _confirmPasswordController.text,
+                  },
+                );
+                if (response.statusCode == 200) {
+                  setState(() {
+                    isSubmitting = false;
+                  });
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Failed to change password'),
+                        content: const Text(
+                            'Failed to change password. Please try again.'),
+                        actions: [
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                setState(() {
+                  isSubmitting = false;
+                });
+                Navigator.pop(context);
+              },
+              child: !isSubmitting
+                  ? const Text('Save')
+                  : const CircularProgressIndicator(),
+            ),
+          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
-      home: const Authentication(),
+      home: const Profile(),
     );
   }
 }
