@@ -14,8 +14,8 @@ class Product {
   final int stock;
   final Category category;
   final int isFeatured;
-  final int isWishlisted;
-  final int isInCart;
+  int isWishlisted;
+  int isInCart;
   final DateTime createdAt;
 
   Product({

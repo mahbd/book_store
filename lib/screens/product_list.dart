@@ -1,4 +1,5 @@
 import 'package:book_store/screens/product_details.dart';
+import 'package:book_store/widget/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,97 +66,202 @@ class _RenderProductList extends StatelessWidget {
       child: ListView.builder(
         itemCount: products?.length ?? 0,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 7,
-            ),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(15),
+          return _ProductInProductList(
+              tabPageChanger: tabPageChanger, product: products![index]);
+        },
+      ),
+    );
+  }
+}
+
+class _ProductInProductList extends StatefulWidget {
+  const _ProductInProductList({
+    Key? key,
+    required this.tabPageChanger,
+    required this.product,
+  }) : super(key: key);
+
+  final TabPageChanger tabPageChanger;
+  final Product product;
+
+  @override
+  State<_ProductInProductList> createState() => _ProductInProductListState();
+}
+
+class _ProductInProductListState extends State<_ProductInProductList> {
+  List<Product> products = [];
+  @override
+  Widget build(BuildContext context) {
+    print("Product wish list: ${widget.product.isWishlisted}");
+    products = [widget.product];
+    int index = 0;
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 7,
+      ),
+      child: Container(
+        height: 150,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(15),
+          ),
+          color: Theme.of(context).primaryColor,
+        ),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                widget.tabPageChanger.setPage(
+                  ProductDetails(
+                    product: products[index],
+                  ),
+                );
+              },
+              child: Container(
+                width: 100,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
-                color: Theme.of(context).primaryColor,
+                child: Image.network(
+                  products[index].image,
+                  fit: BoxFit.cover,
+                ),
               ),
-              child: Row(
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      tabPageChanger.setPage(
-                        ProductDetails(
-                          product: products![index],
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      child: Image.network(
-                        products![index].image,
-                        fit: BoxFit.cover,
+                  Text(
+                    products[index].name,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 10),
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.tabPageChanger.setPage(
+                          ProductDetails(product: products[index]),
+                        );
+                      },
+                      child: Text(
+                        products[index].description,
+                        style: Theme.of(context).textTheme.subtitle1,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          products![index].name,
+                          '\$${products[index].price}',
                           style: Theme.of(context).textTheme.headline6,
                         ),
-                        const SizedBox(height: 10),
-                        Flexible(
-                          child: GestureDetector(
-                            onTap: () {
-                              tabPageChanger.setPage(
-                                ProductDetails(product: products![index]),
-                              );
-                            },
-                            child: Text(
-                              products![index].description,
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                          ),
-                        ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          padding: const EdgeInsets.only(right: 10),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                '\$${products![index].price}',
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Row(
-                                  children: [
-                                    products![index].isWishlisted == -1
-                                        ? const CircularProgressIndicator()
-                                        : products![index].isWishlisted == 0
-                                            ? const Icon(Icons.favorite_outline)
-                                            : const Icon(Icons.favorite),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    products![index].isInCart == -1
-                                        ? const CircularProgressIndicator()
-                                        : products![index].isInCart == 0
-                                            ? const Icon(
-                                                Icons.shopping_cart_outlined)
-                                            : const Icon(Icons.shopping_cart),
-                                  ],
-                                ),
-                              ),
+                              products[index].isWishlisted == -1
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white)
+                                  : products[index].isWishlisted == 0
+                                      ? IconButton(
+                                          icon: const Icon(
+                                            Icons.favorite_border,
+                                          ),
+                                          onPressed: () async {
+                                            setState(() {
+                                              products[index].isWishlisted = -1;
+                                            });
+                                            bool res = await addToWishlist(
+                                                widget.product.id);
+                                            if (res) {
+                                              setState(() {
+                                                products[index].isWishlisted =
+                                                    1;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                products[index].isWishlisted =
+                                                    0;
+                                              });
+                                            }
+                                          },
+                                        )
+                                      : IconButton(
+                                          icon: const Icon(
+                                              Icons.favorite_outlined),
+                                          onPressed: () async {
+                                            setState(() {
+                                              products[index].isWishlisted = -1;
+                                            });
+                                            bool res = await removeFromWishlist(
+                                                widget.product.id);
+                                            if (res) {
+                                              setState(() {
+                                                products[index].isWishlisted =
+                                                    0;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                products[index].isWishlisted =
+                                                    1;
+                                              });
+                                            }
+                                          },
+                                        ),
+                              products[index].isInCart == -1
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : products[index].isInCart == 0
+                                      ? IconButton(
+                                          icon: const Icon(
+                                              Icons.shopping_cart_outlined),
+                                          onPressed: () async {
+                                            setState(() {
+                                              products[index].isInCart = -1;
+                                            });
+                                            bool res = await addToCart(
+                                                widget.product.id, 1);
+                                            if (res) {
+                                              setState(() {
+                                                products[index].isInCart = 1;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                products[index].isInCart = 0;
+                                              });
+                                            }
+                                          },
+                                        )
+                                      : IconButton(
+                                          icon: const Icon(Icons.shopping_cart),
+                                          onPressed: () async {
+                                            setState(() {
+                                              products[index].isInCart = -1;
+                                            });
+                                            bool res = await removeFromCart(
+                                                widget.product.id);
+                                            if (res) {
+                                              setState(() {
+                                                products[index].isInCart = 0;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                products[index].isInCart = 1;
+                                              });
+                                            }
+                                          },
+                                        ),
                             ],
                           ),
                         ),
@@ -165,8 +271,8 @@ class _RenderProductList extends StatelessWidget {
                 ],
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

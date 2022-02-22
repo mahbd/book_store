@@ -68,10 +68,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
-                  const Icon(
-                    Icons.favorite,
-                    size: 35,
-                  ),
+                  // const Icon(
+                  //   Icons.favorite_border,
+                  //   size: 35,
+                  // ),
                 ],
               ),
               const SizedBox(height: 10),

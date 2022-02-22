@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/tab_bar_provider.dart';
 import 'home_page.dart';
-import 'product_list.dart';
 import 'profile.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -78,15 +77,6 @@ class _BaseScreenState extends State<BaseScreen> {
           ),
         ],
         onTap: (int index) {
-          if (index == 0) {
-            _themeProvider.setTheme(lightTheme);
-          } else if (index == 1) {
-            _themeProvider.setTheme(loveTheme);
-          } else if (index == 2) {
-            _themeProvider.setTheme(cartTheme);
-          } else if (index == 3) {
-            _themeProvider.setTheme(profileTheme);
-          }
           setState(() {
             _tabIndex = index;
           });

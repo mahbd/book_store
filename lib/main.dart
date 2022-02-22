@@ -1,3 +1,4 @@
+import 'package:book_store/screens/orders.dart';
 import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeChanger(lightTheme)),
+        ChangeNotifierProvider(create: (_) => ThemeChanger(ThemeData.light())),
         ChangeNotifierProvider(create: (_) => TabPageChanger(null)),
       ],
       child: const MaterialAppWithTheme(),
@@ -41,7 +42,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
-      home: const Profile(),
+      home: const Authentication(),
     );
   }
 }

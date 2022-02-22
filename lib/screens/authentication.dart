@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:book_store/providers/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -107,6 +108,7 @@ class _AuthenticationState extends State<Authentication> {
 
   Future<bool> _checkLoginStatus(BuildContext context) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await loadPreferredTheme(context);
     String? accessToken = _prefs.getString('access_token');
     String? refreshToken = _prefs.getString('refresh_token');
     if (accessToken != null && refreshToken != null) {

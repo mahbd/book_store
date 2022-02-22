@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:book_store/widget/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -83,7 +84,10 @@ class _CartPageState extends State<CartPage> {
                       ],
                     );
                   }
-                  return _ProductInCart(product: products[index]);
+                  return _ProductInCart(
+                    product: products[index],
+                    reload: reload,
+                  );
                 },
               ),
             );
@@ -100,6 +104,10 @@ class _CartPageState extends State<CartPage> {
       },
     );
   }
+
+  void reload() {
+    setState(() {});
+  }
 }
 
 List<Product> convertToProductList(dynamic data) {
@@ -108,8 +116,10 @@ List<Product> convertToProductList(dynamic data) {
 }
 
 class _ProductInCart extends StatefulWidget {
-  const _ProductInCart({Key? key, required this.product}) : super(key: key);
+  const _ProductInCart({Key? key, required this.product, required this.reload})
+      : super(key: key);
   final Product product;
+  final Function reload;
 
   @override
   __ProductInCartState createState() => __ProductInCartState();
@@ -128,7 +138,7 @@ class __ProductInCartState extends State<_ProductInCart> {
         vertical: 7,
       ),
       child: Container(
-        height: 120,
+        height: 130,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(15),
@@ -251,6 +261,12 @@ class __ProductInCartState extends State<_ProductInCart> {
                           icon: const Icon(Icons.add),
                         ),
                       ),
+                      IconButton(
+                          onPressed: () async {
+                            await removeFromCart(widget.product.id);
+                            widget.reload();
+                          },
+                          icon: const Icon(Icons.delete)),
                     ],
                   ),
                   Padding(

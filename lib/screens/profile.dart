@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:book_store/constants.dart';
+import 'package:book_store/providers/tab_bar_provider.dart';
+import 'package:book_store/screens/change_theme.dart';
+import 'package:book_store/screens/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -99,28 +103,7 @@ class _ProfileState extends State<Profile> {
                   const Divider(
                     thickness: 0.5,
                   ),
-                  ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    tileColor: Theme.of(context).primaryColor,
-                    leading: const Icon(Icons.shopping_bag),
-                    title: Text(
-                      'Orders',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'See list of books you have ordered',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                    ),
-                  ),
+                  const _OrderTile(),
                   const Divider(
                     thickness: 0.5,
                   ),
@@ -135,6 +118,44 @@ class _ProfileState extends State<Profile> {
             }
           }
         },
+      ),
+    );
+  }
+}
+
+class _OrderTile extends StatelessWidget {
+  const _OrderTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
+    return ListTile(
+      onTap: () {
+        tabPageChanger.setPage(
+          const OrderPage(),
+        );
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      tileColor: Theme.of(context).primaryColor,
+      leading: const Icon(Icons.shopping_bag),
+      title: Text(
+        'Orders',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).textTheme.bodyText1!.color,
+        ),
+      ),
+      subtitle: Text(
+        'See list of books you have ordered',
+        style: TextStyle(
+          fontSize: 12,
+          color: Theme.of(context).textTheme.bodyText1!.color,
+        ),
       ),
     );
   }
@@ -226,7 +247,13 @@ class _ChangeThemeTile extends StatelessWidget {
           color: Theme.of(context).textTheme.bodyText1!.color,
         ),
       ),
-      onTap: () {},
+      onTap: () async {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const ChangeThemePage(),
+          ),
+        );
+      },
     );
   }
 }
