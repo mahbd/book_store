@@ -40,7 +40,7 @@ Future<bool> removeFromCart(int productId) async {
         'product_id': productId.toString(),
       },
     );
-    if (response.statusCode == 204) {
+    if (response.statusCode == 200) {
       return true;
     } else {
       return false;
@@ -88,7 +88,33 @@ Future<bool> removeFromWishlist(int productId) async {
         'product_id': productId.toString(),
       },
     );
-    if (response.statusCode == 204) {
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> addToOrder(int productId, int quantity, double totalPrice) async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('access_token') ?? '';
+    http.Response response = await http.post(
+      Uri.parse("$api/api/orders/"),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: {
+        'item': productId.toString(),
+        'quantity': quantity.toString(),
+        'total_price': totalPrice.toString(),
+      },
+    );
+    if (response.statusCode == 201) {
       return true;
     } else {
       return false;

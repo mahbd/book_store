@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/tab_bar_provider.dart';
 import '../models/product_model.dart';
+import '../widget/functions.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key, required this.product}) : super(key: key);
@@ -16,6 +17,8 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   final TextEditingController _quantityController = TextEditingController();
   int _quantity = 1;
+  bool isCarting = false;
+  bool isOrdering = false;
   @override
   Widget build(BuildContext context) {
     TabPageChanger _tabPageChanger = Provider.of<TabPageChanger>(context);
@@ -149,16 +152,104 @@ class _ProductDetailsState extends State<ProductDetails> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MaterialButton(
-                    onPressed: () {},
-                    child: const Text('Add to cart'),
+                    onPressed: () async {
+                      setState(() {
+                        isCarting = true;
+                      });
+                      bool res = await addToCart(widget.product.id, _quantity);
+                      if (res) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const Text('Success'),
+                                  content: const Text('Added to cart'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ));
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Error'),
+                            content: const Text('Something went wrong'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      setState(() {
+                        isCarting = false;
+                      });
+                    },
+                    child: !isCarting
+                        ? const Text('Add to cart')
+                        : const CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                   ),
                   const SizedBox(width: 10),
                   MaterialButton(
-                    onPressed: () {},
-                    child: Text(
-                        'Buy now ${(_quantity * widget.product.price).toStringAsFixed(2)}'),
+                    onPressed: () async {
+                      setState(() {
+                        isOrdering = true;
+                      });
+                      bool res = await addToOrder(widget.product.id, _quantity,
+                          widget.product.price * _quantity);
+                      if (res) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Success'),
+                            content: const Text('Ordered Successfully'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Error'),
+                            content: const Text('Something went wrong'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      setState(() {
+                        isOrdering = false;
+                      });
+                    },
+                    child: !isOrdering
+                        ? Text(
+                            'Buy now ${(_quantity * widget.product.price).toStringAsFixed(2)}')
+                        : const CircularProgressIndicator(),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                   ),

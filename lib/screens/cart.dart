@@ -54,36 +54,14 @@ class _CartPageState extends State<CartPage> {
         } else {
           if (snapshot.hasData) {
             final List<Product> products = convertToProductList(snapshot.data);
-            final TextEditingController _quantityController =
-                TextEditingController();
-            _quantityController.text = '1';
-            int _quantity = 1;
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Cart List'),
               ),
               backgroundColor: Theme.of(context).backgroundColor,
               body: ListView.builder(
-                itemCount: products.isNotEmpty ? products.length + 1 : 0,
+                itemCount: products.length,
                 itemBuilder: (context, index) {
-                  if (index == products.length) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {},
-                          child: const Text('Buy All'),
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          height: 40,
-                          minWidth: 150,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
                   return _ProductInCart(
                     product: products[index],
                     reload: reload,
@@ -128,10 +106,14 @@ class _ProductInCart extends StatefulWidget {
 class __ProductInCartState extends State<_ProductInCart> {
   final TextEditingController _quantityController = TextEditingController();
   int _quantity = 1;
+  bool _isRemoving = false;
+  bool _isOrdering = false;
   @override
   Widget build(BuildContext context) {
     TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
-    _quantityController.text = _quantity.toString();
+    _quantityController.text = widget.product.isInCart >= 1
+        ? widget.product.isInCart.toString()
+        : _quantity.toString();
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -263,10 +245,41 @@ class __ProductInCartState extends State<_ProductInCart> {
                       ),
                       IconButton(
                           onPressed: () async {
-                            await removeFromCart(widget.product.id);
-                            widget.reload();
+                            setState(() {
+                              _isRemoving = true;
+                            });
+                            bool res = await removeFromCart(widget.product.id);
+                            setState(() {
+                              _isRemoving = false;
+                            });
+                            if (res) {
+                              widget.reload();
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Error'),
+                                    content: const Text(
+                                        'Something went wrong, please try again'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           },
-                          icon: const Icon(Icons.delete)),
+                          icon: _isRemoving
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Icon(Icons.delete)),
                     ],
                   ),
                   Padding(
@@ -281,8 +294,45 @@ class __ProductInCartState extends State<_ProductInCart> {
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: MaterialButton(
-                            onPressed: () {},
-                            child: const Text('Buy now'),
+                            onPressed: () async {
+                              setState(() {
+                                _isOrdering = true;
+                              });
+                              bool res = await addToOrder(
+                                widget.product.id,
+                                _quantity,
+                                widget.product.price * _quantity,
+                              );
+                              res = await removeFromCart(widget.product.id);
+                              if (res) {
+                                widget.reload();
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Error'),
+                                      content: const Text(
+                                          'Something went wrong, please try again'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                              setState(() {
+                                _isOrdering = false;
+                              });
+                            },
+                            child: !_isOrdering
+                                ? const Text('Buy now')
+                                : const CircularProgressIndicator(),
                             color: Theme.of(context).backgroundColor,
                             textColor: Colors.black,
                             shape: RoundedRectangleBorder(
