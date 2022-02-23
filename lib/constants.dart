@@ -8,4 +8,7 @@ class NamedRoutes {
   static String searchResults = "/search-results";
   static String categoryProducts = "/category-products";
   static String orders = "/orders";
+  static String changeTheme = "/change-theme";
+  static String editProfile = "/edit-profile";
+  static String changePassword = "/change-password";
 }

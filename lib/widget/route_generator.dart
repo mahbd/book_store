@@ -3,10 +3,13 @@ import 'package:book_store/models/category_model.dart';
 import 'package:book_store/models/product_model.dart';
 import 'package:book_store/screens/orders.dart';
 import 'package:book_store/screens/product_list.dart';
+import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 
+import '../models/user_model.dart';
 import '../screens/authentication.dart';
 import '../screens/base.dart';
+import '../screens/change_theme.dart';
 import '../screens/product_details.dart';
 
 class RouteGenerator {
@@ -59,8 +62,31 @@ class RouteGenerator {
           page: OrderPage(),
         ),
       );
+    } else if (settings.name == NamedRoutes.changeTheme) {
+      return MaterialPageRoute(
+        builder: (_) => const BaseScreen(
+          page: ChangeThemePage(),
+        ),
+      );
+    } else if (settings.name == NamedRoutes.editProfile) {
+      if (settings.arguments is User) {
+        return MaterialPageRoute(
+          builder: (_) => BaseScreen(
+            page: EditProfileForm(
+              user: settings.arguments as User,
+            ),
+          ),
+        );
+      }
+      return _errorRoute(message: "User is not passed as an argument");
+    } else if (settings.name == NamedRoutes.changePassword) {
+      return MaterialPageRoute(
+        builder: (_) => const BaseScreen(
+          page: ChangePasswordForm(),
+        ),
+      );
     } else {
-      return _errorRoute();
+      return _errorRoute(message: "Unknown route: ${settings.name}");
     }
   }
 
