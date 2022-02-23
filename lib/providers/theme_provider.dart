@@ -15,9 +15,9 @@ class ThemeChanger extends ChangeNotifier {
 
 // theme = light|dark|pink|blue|green|purple
 
-Future<bool> loadPreferredTheme(BuildContext context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  ThemeChanger _themeProvider = Provider.of<ThemeChanger>(context);
+void loadPreferredTheme(BuildContext context, SharedPreferences prefs) {
+  ThemeChanger _themeProvider =
+      Provider.of<ThemeChanger>(context, listen: false);
   String theme = prefs.getString('theme') ?? 'light';
   if (theme == 'light') {
     _themeProvider.setTheme(
@@ -44,5 +44,4 @@ Future<bool> loadPreferredTheme(BuildContext context) async {
       primaryColor: Colors.purple,
     ));
   }
-  return true;
 }

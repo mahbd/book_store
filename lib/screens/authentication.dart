@@ -106,7 +106,7 @@ class _AuthenticationState extends State<Authentication> {
 
   Future<bool> _checkLoginStatus(BuildContext context) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await loadPreferredTheme(context);
+    loadPreferredTheme(context, _prefs);
     String? accessToken = _prefs.getString('access_token');
     String? refreshToken = _prefs.getString('refresh_token');
     if (accessToken != null && refreshToken != null) {
