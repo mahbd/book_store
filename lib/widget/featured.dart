@@ -61,10 +61,9 @@ class Featured extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        _tabPageChanger.setPage(
-                          ProductDetails(
-                            product: products[index],
-                          ),
+                        Navigator.of(context).pushNamed(
+                          '/product-details',
+                          arguments: products[index],
                         );
                       },
                       child: Padding(

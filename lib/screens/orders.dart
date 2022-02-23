@@ -125,10 +125,9 @@ class _RenderOrderState extends State<_RenderOrder> {
           children: [
             GestureDetector(
               onTap: () {
-                tabPageChanger.setPage(
-                  ProductDetails(
-                    product: widget.order.product,
-                  ),
+                Navigator.of(context).pushNamed(
+                  '/product_details',
+                  arguments: widget.order.product,
                 );
               },
               child: Container(

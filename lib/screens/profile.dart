@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:book_store/constants.dart';
-import 'package:book_store/providers/tab_bar_provider.dart';
 import 'package:book_store/screens/change_theme.dart';
-import 'package:book_store/screens/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -130,12 +127,9 @@ class _OrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     return ListTile(
       onTap: () {
-        tabPageChanger.setPage(
-          const OrderPage(),
-        );
+        Navigator.of(context).pushNamed('/orders');
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),

@@ -111,10 +111,9 @@ class _ProductInProductListState extends State<_ProductInProductList> {
           children: [
             GestureDetector(
               onTap: () {
-                widget.tabPageChanger.setPage(
-                  ProductDetails(
-                    product: products[index],
-                  ),
+                Navigator.of(context).pushNamed(
+                  '/product_details',
+                  arguments: products[index],
                 );
               },
               child: Container(
@@ -145,8 +144,9 @@ class _ProductInProductListState extends State<_ProductInProductList> {
                   Flexible(
                     child: GestureDetector(
                       onTap: () {
-                        widget.tabPageChanger.setPage(
-                          ProductDetails(product: products[index]),
+                        Navigator.of(context).pushNamed(
+                          '/product_details',
+                          arguments: products[index],
                         );
                       },
                       child: Text(

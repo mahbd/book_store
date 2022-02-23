@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../screens/product_list.dart';
 import '../models/category_model.dart';
-import '../providers/tab_bar_provider.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList(
@@ -19,7 +16,6 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger _tabPageChanger = Provider.of<TabPageChanger>(context);
     return SizedBox(
       height: 50,
       child: ListView.builder(
@@ -34,11 +30,9 @@ class CategoryList extends StatelessWidget {
               shape: const StadiumBorder(),
               color: Colors.black,
               onPressed: () {
-                _tabPageChanger.setPage(
-                  ProductList(
-                    title: categories[index].showName,
-                    category: categories[index],
-                  ),
+                Navigator.of(context).pushNamed(
+                  '/category-products',
+                  arguments: categories[index],
                 );
               },
               child: Text(

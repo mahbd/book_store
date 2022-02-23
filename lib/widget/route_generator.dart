@@ -1,5 +1,6 @@
 import 'package:book_store/models/category_model.dart';
 import 'package:book_store/models/product_model.dart';
+import 'package:book_store/screens/orders.dart';
 import 'package:book_store/screens/product_list.dart';
 import 'package:flutter/material.dart';
 
@@ -59,6 +60,12 @@ class RouteGenerator {
           );
         }
         return _errorRoute(message: "Category is not passed as an argument");
+      case '/orders':
+        return MaterialPageRoute(
+          builder: (_) => const BaseScreen(
+            page: OrderPage(),
+          ),
+        );
       default:
         return _errorRoute();
     }
