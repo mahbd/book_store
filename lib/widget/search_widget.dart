@@ -4,11 +4,9 @@ import 'package:book_store/models/product_model.dart';
 import 'package:book_store/screens/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
-import '../providers/tab_bar_provider.dart';
 
 class SearchWidget extends StatefulWidget {
   const SearchWidget({
@@ -28,7 +26,6 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: SizedBox(
@@ -67,11 +64,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                     },
                   );
                 } else {
-                  tabPageChanger.setPage(
-                    ProductList(
-                      title: "Search Result(${products.length})",
-                      products: products,
-                    ),
+                  Navigator.of(context).pushNamed(
+                    '/search-results',
+                    arguments: products,
                   );
                 }
               }

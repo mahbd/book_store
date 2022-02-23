@@ -131,10 +131,9 @@ class __ProductInCartState extends State<_ProductInCart> {
           children: [
             GestureDetector(
               onTap: () {
-                tabPageChanger.setPage(
-                  ProductDetails(
-                    product: widget.product,
-                  ),
+                Navigator.of(context).pushNamed(
+                  "/product-details",
+                  arguments: widget.product,
                 );
               },
               child: Container(

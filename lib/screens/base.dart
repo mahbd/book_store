@@ -8,7 +8,9 @@ import 'home_page.dart';
 import 'profile.dart';
 
 class BaseScreen extends StatefulWidget {
-  const BaseScreen({Key? key}) : super(key: key);
+  const BaseScreen({Key? key, this.page}) : super(key: key);
+
+  final Widget? page;
 
   @override
   _BaseScreenState createState() => _BaseScreenState();
@@ -25,17 +27,22 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger _newPage = Provider.of<TabPageChanger>(context);
+    TabPageChanger pageChanger = Provider.of<TabPageChanger>(context);
 
-    if (_newPage.getPage != null) {
+    if (pageChanger.getTabIndex != _tabIndex) {
+      _tabIndex = pageChanger.getTabIndex;
+      setState(() {});
+    }
+
+    if (widget.page != null) {
       if (children.length == 4) {
-        children.add(_newPage.getPage);
+        children.add(widget.page!);
         setState(() {
           _tabIndex = 4;
         });
       } else if (children.length == 5) {
-        if (children[4] != _newPage.getPage) {
-          children[4] = _newPage.getPage;
+        if (children[4] != widget.page) {
+          children[4] = widget.page!;
           setState(() {
             _tabIndex = 4;
           });
@@ -75,9 +82,10 @@ class _BaseScreenState extends State<BaseScreen> {
           ),
         ],
         onTap: (int index) {
-          setState(() {
-            _tabIndex = index;
-          });
+          pageChanger.setTabIndex(index);
+          if (widget.page != null) {
+            Navigator.of(context).pop();
+          }
         },
       ),
     );
