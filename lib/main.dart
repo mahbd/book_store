@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/authentication.dart';
 import 'models/product_model.dart';
 import 'providers/theme_provider.dart';
 import 'providers/tab_bar_provider.dart';
+import 'widget/route_generator.dart';
 
 void main() {
   runApp(
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeChanger(ThemeData.light())),
-        ChangeNotifierProvider(create: (_) => TabPageChanger(null)),
+        ChangeNotifierProvider(create: (_) => TabPageChanger(0)),
       ],
       child: const MaterialAppWithTheme(),
     );
@@ -40,7 +40,8 @@ class MaterialAppWithTheme extends StatelessWidget {
       title: "Ecommerce App",
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
-      home: const Authentication(),
+      onGenerateRoute: RouteGenerator.generateRoute,
+      initialRoute: '/',
     );
   }
 }

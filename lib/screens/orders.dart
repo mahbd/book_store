@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'package:book_store/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 import '../models/product_model.dart';
-import '../providers/tab_bar_provider.dart';
-import 'product_details.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({Key? key}) : super(key: key);
@@ -107,7 +104,6 @@ class _RenderOrder extends StatefulWidget {
 class _RenderOrderState extends State<_RenderOrder> {
   @override
   Widget build(BuildContext context) {
-    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -125,10 +121,9 @@ class _RenderOrderState extends State<_RenderOrder> {
           children: [
             GestureDetector(
               onTap: () {
-                tabPageChanger.setPage(
-                  ProductDetails(
-                    product: widget.order.product,
-                  ),
+                Navigator.of(context).pushNamed(
+                  NamedRoutes.productDetails,
+                  arguments: widget.order.product,
                 );
               },
               child: Container(

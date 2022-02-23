@@ -1,11 +1,9 @@
-import 'package:book_store/screens/product_details.dart';
-import 'package:provider/provider.dart';
+import 'package:book_store/constants.dart';
 
 import '../models/product_model.dart';
 import 'package:flutter/material.dart';
 
 import 'future_image.dart';
-import '../providers/tab_bar_provider.dart';
 
 class RowProductList extends StatelessWidget {
   const RowProductList({
@@ -17,7 +15,6 @@ class RowProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     return SizedBox(
       height: 150,
       child: ListView.builder(
@@ -29,8 +26,9 @@ class RowProductList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 7),
             child: GestureDetector(
               onTap: () {
-                tabPageChanger.setPage(
-                  ProductDetails(product: products[index]),
+                Navigator.of(context).pushNamed(
+                  NamedRoutes.productDetails,
+                  arguments: products[index],
                 );
               },
               child: SizedBox(

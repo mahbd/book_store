@@ -30,10 +30,7 @@ class _AuthenticationState extends State<Authentication> {
         SharedPreferences _prefs = await SharedPreferences.getInstance();
         _prefs.setString('access_token', accessToken);
         _prefs.setString('refresh_token', refreshToken);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BaseScreen()),
-        );
+        Navigator.of(context).pushReplacementNamed(NamedRoutes.home);
       } else if (response.statusCode == 400) {
         Map<String, dynamic> body = json.decode(response.body);
         String message = "Invalid username or password";

@@ -1,4 +1,4 @@
-import 'package:book_store/screens/product_details.dart';
+import 'package:book_store/constants.dart';
 import 'package:book_store/widget/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -111,10 +111,9 @@ class _ProductInProductListState extends State<_ProductInProductList> {
           children: [
             GestureDetector(
               onTap: () {
-                widget.tabPageChanger.setPage(
-                  ProductDetails(
-                    product: products[index],
-                  ),
+                Navigator.of(context).pushNamed(
+                  NamedRoutes.productDetails,
+                  arguments: products[index],
                 );
               },
               child: Container(
@@ -145,8 +144,9 @@ class _ProductInProductListState extends State<_ProductInProductList> {
                   Flexible(
                     child: GestureDetector(
                       onTap: () {
-                        widget.tabPageChanger.setPage(
-                          ProductDetails(product: products[index]),
+                        Navigator.of(context).pushNamed(
+                          NamedRoutes.productDetails,
+                          arguments: products[index],
                         );
                       },
                       child: Text(

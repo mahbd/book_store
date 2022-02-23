@@ -1,5 +1,5 @@
+import 'package:book_store/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
 import '../models/product_model.dart';
@@ -8,8 +8,6 @@ import '../widget/row_product_list.dart';
 import '../widget/search_widget.dart';
 import '../models/category_model.dart';
 import '../widget/featured.dart';
-import '../providers/tab_bar_provider.dart';
-import 'product_list.dart';
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
@@ -134,7 +132,6 @@ class _ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger _tabPageChanger = Provider.of<TabPageChanger>(context);
     return Column(
       children: [
         Padding(
@@ -152,10 +149,9 @@ class _ProductList extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  _tabPageChanger.setPage(
-                    ProductList(
-                      category: category,
-                    ),
+                  Navigator.of(context).pushNamed(
+                    NamedRoutes.categoryProducts,
+                    arguments: category,
                   );
                 },
                 child: Text(

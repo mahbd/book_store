@@ -1,12 +1,8 @@
 import 'dart:convert';
 
 import 'package:book_store/constants.dart';
-import 'package:book_store/providers/tab_bar_provider.dart';
-import 'package:book_store/screens/change_theme.dart';
-import 'package:book_store/screens/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -130,12 +126,9 @@ class _OrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     return ListTile(
       onTap: () {
-        tabPageChanger.setPage(
-          const OrderPage(),
-        );
+        Navigator.of(context).pushNamed(NamedRoutes.orders);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -174,8 +167,7 @@ class _LogoutTile extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             title: const Text('Logout'),
-            content: const Text(
-                'Are you sure you want to logout?\nThe app will be closed to remove saved data.'),
+            content: const Text('Are you sure you want to logout?'),
             actions: [
               TextButton(
                 child: const Text('Cancel'),
@@ -188,7 +180,7 @@ class _LogoutTile extends StatelessWidget {
                       await SharedPreferences.getInstance();
                   await _prefs.remove('access_token');
                   await _prefs.remove('refresh_token');
-                  SystemNavigator.pop();
+                  Navigator.of(context).pushReplacementNamed(NamedRoutes.login);
                 },
               ),
             ],
@@ -248,11 +240,7 @@ class _ChangeThemeTile extends StatelessWidget {
         ),
       ),
       onTap: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const ChangeThemePage(),
-          ),
-        );
+        Navigator.of(context).pushNamed(NamedRoutes.changeTheme);
       },
     );
   }
@@ -277,13 +265,9 @@ class _EditProfileTileState extends State<_EditProfileTile> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EditProfileForm(
-              user: widget.user,
-            ),
-          ),
+        await Navigator.of(context).pushNamed(
+          NamedRoutes.editProfile,
+          arguments: widget.user,
         );
         widget.reload();
       },
@@ -328,12 +312,7 @@ class _ChangePasswordTileState extends State<_ChangePasswordTile> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ChangePasswordForm(),
-          ),
-        );
+        await Navigator.of(context).pushNamed(NamedRoutes.changePassword);
         widget.reload();
       },
       shape: RoundedRectangleBorder(
