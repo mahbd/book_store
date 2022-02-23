@@ -3,7 +3,6 @@ import 'package:book_store/screens/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/theme_provider.dart';
 import '../providers/tab_bar_provider.dart';
 import 'home_page.dart';
 import 'profile.dart';
@@ -26,7 +25,6 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeChanger _themeProvider = Provider.of<ThemeChanger>(context);
     TabPageChanger _newPage = Provider.of<TabPageChanger>(context);
 
     if (_newPage.getPage != null) {

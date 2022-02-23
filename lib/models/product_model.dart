@@ -63,7 +63,6 @@ Future<List<Product>> productListOfCategory(Category category) async {
         .map((product) => Product.fromJson(product))
         .toList();
   } else {
-    print("Failed to load. Status code: ${response.statusCode}");
     throw Exception('Failed to load products');
   }
 }

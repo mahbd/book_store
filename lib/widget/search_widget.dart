@@ -79,7 +79,6 @@ class _SearchWidgetState extends State<SearchWidget> {
               setState(() {
                 isSearching = false;
               });
-              print(e);
             }
             setState(() {
               isSearching = false;

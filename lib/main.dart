@@ -1,5 +1,3 @@
-import 'package:book_store/screens/orders.dart';
-import 'package:book_store/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +37,7 @@ class MaterialAppWithTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeChanger>(context);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Ecommerce App",
       theme: theme.getTheme,
       debugShowCheckedModeBanner: false,
       home: const Authentication(),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/tab_bar_provider.dart';
 import '../models/product_model.dart';
 import '../widget/functions.dart';
 
@@ -21,7 +19,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isOrdering = false;
   @override
   Widget build(BuildContext context) {
-    TabPageChanger _tabPageChanger = Provider.of<TabPageChanger>(context);
     _quantityController.text = _quantity.toString();
     return Scaffold(
       appBar: AppBar(

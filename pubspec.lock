@@ -130,7 +130,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "220ba5740eb8c56c7e9ecadfad8b9ededd07f18a"
+      resolved-ref: "5453071081116b88d983594bc44689df1644e92d"
       url: "https://github.com/mahbd/flutter_login.git"
     source: git
     version: "3.0.0"

@@ -92,7 +92,6 @@ class _ProductInProductListState extends State<_ProductInProductList> {
   List<Product> products = [];
   @override
   Widget build(BuildContext context) {
-    print("Product wish list: ${widget.product.isWishlisted}");
     products = [widget.product];
     int index = 0;
     return Padding(

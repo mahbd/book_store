@@ -22,7 +22,6 @@ Future<bool> addToCart(int productId, int quantity) async {
       return false;
     }
   } catch (e) {
-    print(e);
     return false;
   }
 }
@@ -46,7 +45,6 @@ Future<bool> removeFromCart(int productId) async {
       return false;
     }
   } catch (e) {
-    print(e);
     return false;
   }
 }
@@ -70,7 +68,6 @@ Future<bool> addToWishlist(int productId) async {
       return false;
     }
   } catch (e) {
-    print(e);
     return false;
   }
 }
@@ -94,7 +91,6 @@ Future<bool> removeFromWishlist(int productId) async {
       return false;
     }
   } catch (e) {
-    print(e);
     return false;
   }
 }
@@ -120,7 +116,6 @@ Future<bool> addToOrder(int productId, int quantity, double totalPrice) async {
       return false;
     }
   } catch (e) {
-    print(e);
     return false;
   }
 }

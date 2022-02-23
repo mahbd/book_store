@@ -27,20 +27,16 @@ class _OrderPageState extends State<OrderPage> {
     final List<Order> orderList = [];
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      try {
-        for (var item in data) {
-          Product? product = await productFromHttp(item['item']);
-          Order order = Order(
-            id: item['id'],
-            product: product,
-            quantity: item['quantity'],
-            price: double.parse(item['total_price']),
-            status: item['status'],
-          );
-          orderList.add(order);
-        }
-      } catch (e) {
-        print(e);
+      for (var item in data) {
+        Product? product = await productFromHttp(item['item']);
+        Order order = Order(
+          id: item['id'],
+          product: product,
+          quantity: item['quantity'],
+          price: double.parse(item['total_price']),
+          status: item['status'],
+        );
+        orderList.add(order);
       }
     } else {
       throw Exception('Failed to load orderlist');
@@ -109,12 +105,9 @@ class _RenderOrder extends StatefulWidget {
 }
 
 class _RenderOrderState extends State<_RenderOrder> {
-  final TextEditingController _quantityController = TextEditingController();
-  int _quantity = 1;
   @override
   Widget build(BuildContext context) {
     TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
-    _quantityController.text = _quantity.toString();
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,

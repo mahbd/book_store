@@ -28,11 +28,9 @@ class Featured extends StatelessWidget {
             .map((data) => Product.fromJson(data))
             .toList();
       } else {
-        print("Status code: ${response.statusCode}");
         throw Exception('Failed to load products');
       }
     } catch (e) {
-      print(e);
       throw Exception('Failed to load products');
     }
   }

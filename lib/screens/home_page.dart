@@ -52,14 +52,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    String _searchText = '';
     Category _currentCategory = categories[0];
 
-    void _updateSearchText(String value) {
-      setState(() {
-        _searchText = value;
-      });
-    }
+    void _updateSearchText(String value) {}
 
     void _updateCategory(Category value) {
       setState(() {

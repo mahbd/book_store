@@ -67,19 +67,20 @@ class _AuthenticationState extends State<Authentication> {
   }
 
   Future<String?> _signupUser(SignupData data) async {
-    String username = data.name ?? '';
-    String password = data.password ?? '';
+    String username = data.customLoginData!['username'] ?? '';
+    String password = data.customLoginData!['password'] ?? '';
     String email = data.additionalSignupData!['email'] ?? '';
     String firstName = data.additionalSignupData!['firstName'] ?? '';
     String lastName = data.additionalSignupData!['lastName'] ?? '';
     try {
       http.Response response =
-          await http.post(Uri.parse("$api/auth/signup/"), body: {
+          await http.post(Uri.parse("$api/users/register/"), body: {
         "username": username,
         "password": password,
+        "password_confirm": password,
         "email": email,
-        "firstName": firstName,
-        "lastName": lastName
+        "first_name": firstName,
+        "last_name": lastName
       });
       if (response.statusCode == 201) {
         LoginData loginData = LoginData(
@@ -95,7 +96,7 @@ class _AuthenticationState extends State<Authentication> {
         Map<String, dynamic> body = json.decode(response.body);
         String message = "Invalid username or password";
         body.forEach((key, value) {
-          message = value[0].toString();
+          message = "$key: ${value[0]}";
         });
         return message;
       } else {
@@ -164,6 +165,13 @@ class _AuthenticationState extends State<Authentication> {
               return const BaseScreen();
             }
             return FlutterLogin(
+              hideForgotPasswordButton: true,
+              passwordValidator: (value) {
+                if (value != null && value.length < 4) {
+                  return 'Password must be at least 4 characters long';
+                }
+                return null;
+              },
               logo: 'assets/images/books.png',
               title: 'Book Store',
               onLogin: _loginUser,
