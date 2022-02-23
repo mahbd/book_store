@@ -129,7 +129,7 @@ class _OrderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.of(context).pushNamed('/orders');
+        Navigator.of(context).pushNamed(NamedRoutes.orders);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -242,6 +242,7 @@ class _ChangeThemeTile extends StatelessWidget {
         ),
       ),
       onTap: () async {
+        // TODO: Use named routes
         await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const ChangeThemePage(),
@@ -271,6 +272,7 @@ class _EditProfileTileState extends State<_EditProfileTile> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
+        // TODO: Use named routes
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -323,6 +325,7 @@ class _ChangePasswordTileState extends State<_ChangePasswordTile> {
     return ListTile(
       onTap: () async {
         await Navigator.push(
+          // TODO: Use named routes
           context,
           MaterialPageRoute(
             builder: (context) => const ChangePasswordForm(),

@@ -1,3 +1,5 @@
+import 'package:book_store/constants.dart';
+
 import '../models/product_model.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +27,7 @@ class RowProductList extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
-                  '/product-details',
+                  NamedRoutes.productDetails,
                   arguments: products[index],
                 );
               },

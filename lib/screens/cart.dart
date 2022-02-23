@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'package:book_store/widget/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 import '../models/product_model.dart';
-import '../providers/tab_bar_provider.dart';
-import 'product_details.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -110,7 +107,6 @@ class __ProductInCartState extends State<_ProductInCart> {
   bool _isOrdering = false;
   @override
   Widget build(BuildContext context) {
-    TabPageChanger tabPageChanger = Provider.of<TabPageChanger>(context);
     _quantityController.text = widget.product.isInCart >= 1
         ? widget.product.isInCart.toString()
         : _quantity.toString();
@@ -132,7 +128,7 @@ class __ProductInCartState extends State<_ProductInCart> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
-                  "/product-details",
+                  NamedRoutes.productDetails,
                   arguments: widget.product,
                 );
               },

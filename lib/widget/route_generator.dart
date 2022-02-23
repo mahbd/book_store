@@ -1,3 +1,4 @@
+import 'package:book_store/constants.dart';
 import 'package:book_store/models/category_model.dart';
 import 'package:book_store/models/product_model.dart';
 import 'package:book_store/screens/orders.dart';
@@ -10,64 +11,56 @@ import '../screens/product_details.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (_) => const Authentication());
-      case '/login':
-        return MaterialPageRoute(builder: (_) => const Authentication());
-      case '/home':
-        if (settings.arguments is Widget) {
-          return MaterialPageRoute(
-            builder: (_) => BaseScreen(
-              page: settings.arguments as Widget?,
-            ),
-          );
-        }
-        return MaterialPageRoute(builder: (_) => const BaseScreen());
-      case '/product-details':
-        if (settings.arguments is Product) {
-          return MaterialPageRoute(
-            builder: (_) => BaseScreen(
-              page: ProductDetails(
-                product: settings.arguments as Product,
-              ),
-            ),
-          );
-        }
-        return _errorRoute(message: "Product is not passed as an argument");
-      case '/search-results':
-        if (settings.arguments is List<Product>) {
-          return MaterialPageRoute(
-            builder: (_) => BaseScreen(
-              page: ProductList(
-                title:
-                    "Search Result(${(settings.arguments as List<Product>).length})",
-                products: settings.arguments as List<Product>,
-              ),
-            ),
-          );
-        }
-        return _errorRoute(message: "Products are not passed as an argument");
-      case '/category-products':
-        if (settings.arguments is Category) {
-          return MaterialPageRoute(
-            builder: (_) => BaseScreen(
-              page: ProductList(
-                title: "Category: ${settings.arguments as Category}",
-                category: settings.arguments as Category,
-              ),
-            ),
-          );
-        }
-        return _errorRoute(message: "Category is not passed as an argument");
-      case '/orders':
+    if (settings.name == NamedRoutes.base) {
+      return MaterialPageRoute(builder: (_) => const Authentication());
+    } else if (settings.name == NamedRoutes.login) {
+      return MaterialPageRoute(builder: (_) => const Authentication());
+    } else if (settings.name == NamedRoutes.home) {
+      return MaterialPageRoute(builder: (_) => const BaseScreen());
+    } else if (settings.name == NamedRoutes.productDetails) {
+      if (settings.arguments is Product) {
         return MaterialPageRoute(
-          builder: (_) => const BaseScreen(
-            page: OrderPage(),
+          builder: (_) => BaseScreen(
+            page: ProductDetails(
+              product: settings.arguments as Product,
+            ),
           ),
         );
-      default:
-        return _errorRoute();
+      }
+      return _errorRoute(message: "Product is not passed as an argument");
+    } else if (settings.name == NamedRoutes.searchResults) {
+      if (settings.arguments is List<Product>) {
+        return MaterialPageRoute(
+          builder: (_) => BaseScreen(
+            page: ProductList(
+              title:
+                  "Search Result(${(settings.arguments as List<Product>).length})",
+              products: settings.arguments as List<Product>,
+            ),
+          ),
+        );
+      }
+      return _errorRoute(message: "Products are not passed as an argument");
+    } else if (settings.name == NamedRoutes.categoryProducts) {
+      if (settings.arguments is Category) {
+        return MaterialPageRoute(
+          builder: (_) => BaseScreen(
+            page: ProductList(
+              title: "Category: ${settings.arguments as Category}",
+              category: settings.arguments as Category,
+            ),
+          ),
+        );
+      }
+      return _errorRoute(message: "Category is not passed as an argument");
+    } else if (settings.name == NamedRoutes.orders) {
+      return MaterialPageRoute(
+        builder: (_) => const BaseScreen(
+          page: OrderPage(),
+        ),
+      );
+    } else {
+      return _errorRoute();
     }
   }
 

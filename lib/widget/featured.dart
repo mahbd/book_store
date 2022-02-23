@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'package:book_store/screens/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 import '../models/product_model.dart';
-import '../providers/tab_bar_provider.dart';
 import 'future_image.dart';
 
 class Featured extends StatelessWidget {
@@ -37,7 +34,6 @@ class Featured extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TabPageChanger _tabPageChanger = Provider.of<TabPageChanger>(context);
     return FutureBuilder(
         future: _getFeaturedProducts(),
         builder: (context, snapshot) {
@@ -62,7 +58,7 @@ class Featured extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          '/product-details',
+                          NamedRoutes.productDetails,
                           arguments: products[index],
                         );
                       },

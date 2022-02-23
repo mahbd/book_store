@@ -1,3 +1,4 @@
+import 'package:book_store/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -149,7 +150,7 @@ class _ProductList extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    '/category-products',
+                    NamedRoutes.categoryProducts,
                     arguments: category,
                   );
                 },

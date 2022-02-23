@@ -126,7 +126,7 @@ class _RenderOrderState extends State<_RenderOrder> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
-                  '/product_details',
+                  NamedRoutes.productDetails,
                   arguments: widget.order.product,
                 );
               },

@@ -1,3 +1,4 @@
+import 'package:book_store/constants.dart';
 import 'package:book_store/screens/product_details.dart';
 import 'package:book_store/widget/functions.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +113,7 @@ class _ProductInProductListState extends State<_ProductInProductList> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
-                  '/product_details',
+                  NamedRoutes.productDetails,
                   arguments: products[index],
                 );
               },
@@ -145,7 +146,7 @@ class _ProductInProductListState extends State<_ProductInProductList> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          '/product_details',
+                          NamedRoutes.productDetails,
                           arguments: products[index],
                         );
                       },

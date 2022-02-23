@@ -1,3 +1,4 @@
+import 'package:book_store/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../models/category_model.dart';
@@ -31,7 +32,7 @@ class CategoryList extends StatelessWidget {
               color: Colors.black,
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/category-products',
+                  NamedRoutes.categoryProducts,
                   arguments: categories[index],
                 );
               },
