@@ -49,7 +49,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => BaseScreen(
             page: ProductList(
-              title: "Category: ${settings.arguments as Category}",
+              title: "Category: ${(settings.arguments as Category).showName}",
               category: settings.arguments as Category,
             ),
           ),

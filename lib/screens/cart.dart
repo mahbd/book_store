@@ -21,22 +21,23 @@ class _CartPageState extends State<CartPage> {
     final response = await http.get(Uri.parse("$api/api/cart/"), headers: {
       'Authorization': 'Bearer $accessToken',
     });
-    final List<Product> wishList = [];
+    final List<Product> cartList = [];
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       for (var item in data) {
         Product? product = await productFromHttp(item['item']);
-        wishList.add(product);
+        product.isInCart = item['quantity'];
+        cartList.add(product);
       }
     } else {
       throw Exception('Failed to load wishlist');
     }
-    return wishList;
+    return cartList;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<List<Product>>(
       future: _getWishList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,7 +51,7 @@ class _CartPageState extends State<CartPage> {
           );
         } else {
           if (snapshot.hasData) {
-            final List<Product> products = convertToProductList(snapshot.data);
+            final List<Product> products = snapshot.data!;
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Cart List'),
@@ -61,6 +62,7 @@ class _CartPageState extends State<CartPage> {
                 itemBuilder: (context, index) {
                   return _ProductInCart(
                     product: products[index],
+                    quantity: products[index].isInCart,
                     reload: reload,
                   );
                 },
@@ -85,14 +87,10 @@ class _CartPageState extends State<CartPage> {
   }
 }
 
-List<Product> convertToProductList(dynamic data) {
-  List<Product> products = data.map<Product>((e) => e as Product).toList();
-  return products;
-}
-
 class _ProductInCart extends StatefulWidget {
-  const _ProductInCart({Key? key, required this.product, required this.reload})
+  _ProductInCart({Key? key, required this.product, required this.reload, required this.quantity})
       : super(key: key);
+  int quantity;
   final Product product;
   final Function reload;
 
@@ -102,14 +100,11 @@ class _ProductInCart extends StatefulWidget {
 
 class __ProductInCartState extends State<_ProductInCart> {
   final TextEditingController _quantityController = TextEditingController();
-  int _quantity = 1;
   bool _isRemoving = false;
   bool _isOrdering = false;
   @override
   Widget build(BuildContext context) {
-    _quantityController.text = widget.product.isInCart >= 1
-        ? widget.product.isInCart.toString()
-        : _quantity.toString();
+    _quantityController.text = widget.quantity.toString();
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -173,8 +168,8 @@ class __ProductInCartState extends State<_ProductInCart> {
                         child: IconButton(
                           onPressed: () {
                             setState(() {
-                              if (_quantity > 1) {
-                                _quantity--;
+                              if (widget.quantity > 1) {
+                                widget.quantity--;
                               }
                             });
                           },
@@ -188,7 +183,7 @@ class __ProductInCartState extends State<_ProductInCart> {
                           controller: _quantityController,
                           onChanged: (value) {
                             setState(() {
-                              _quantity = int.parse(value);
+                              widget.quantity = int.parse(value);
                             });
                           },
                           keyboardType: TextInputType.number,
@@ -210,9 +205,9 @@ class __ProductInCartState extends State<_ProductInCart> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            if (_quantity < widget.product.stock) {
+                            if (widget.quantity < widget.product.stock) {
                               setState(() {
-                                _quantity++;
+                                widget.quantity++;
                               });
                             } else {
                               showDialog(
@@ -283,7 +278,7 @@ class __ProductInCartState extends State<_ProductInCart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${(widget.product.price * _quantity).toStringAsFixed(2)}',
+                          '\$${(widget.product.price * widget.quantity).toStringAsFixed(2)}',
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         Padding(
@@ -295,8 +290,8 @@ class __ProductInCartState extends State<_ProductInCart> {
                               });
                               bool res = await addToOrder(
                                 widget.product.id,
-                                _quantity,
-                                widget.product.price * _quantity,
+                                widget.quantity,
+                                widget.product.price * widget.quantity,
                               );
                               res = await removeFromCart(widget.product.id);
                               if (res) {

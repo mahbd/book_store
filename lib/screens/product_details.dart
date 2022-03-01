@@ -92,6 +92,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       border: Border.all(
                         color: Theme.of(context).textTheme.headline6!.color!,
                       ),
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: IconButton(
@@ -129,6 +130,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       border: Border.all(
                         color: Theme.of(context).textTheme.headline6!.color!,
                       ),
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: IconButton(
@@ -246,7 +248,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: !isOrdering
                         ? Text(
                             'Buy now ${(_quantity * widget.product.price).toStringAsFixed(2)}')
-                        : const CircularProgressIndicator(),
+                        : const CircularProgressIndicator(color: Colors.white),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                   ),
